@@ -1,19 +1,22 @@
 import os
 from connectors.imap_connector import ImapConnector
+from connectors.pop_connector import PopConnector
 from mail_box_handlers.imap_handler import ImapHandler
 
-IMAP_USERNAME = os.getenv('IMAP_USER', None)
-IMAP_PASSWORD = os.getenv('IMAP_PASS', None)
-IMAP_SERVER = os.getenv('IMAP_SERVER', None)
+MAIL_USERNAME = os.getenv('MAIL_USER', None)
+MAIL_PASSWORD = os.getenv('MAIL_PASS', None)
+MAIL_SERVER = os.getenv('IMAP_SERVER', None)
+MAIL_PORT = os.getenv('POP_PORT', None)
+CONNECTOR = os.getenv('CONNECTOR', 'imap')
 
 DEFAULT_MAIL_FOLDER = ''
 
-def main(handler, connector):
-    handler.get_messages(DEFAULT_MAIL_FOLDER)
-    connector.logout()
+# def main(handler, connector):
+#     handler.get_messages(DEFAULT_MAIL_FOLDER)
+#     connector.logout()
 
 
-def setup(creds):
+def imap_setup(creds):
     connector = ImapConnector(
         creds.get('username', None), 
         creds.get('password', None), 
@@ -25,12 +28,19 @@ def setup(creds):
 
     return handler, connector
 
+def pop_setup(creds):
+    connector = PopConnector(
+        creds.get('username', None), 
+        creds.get('password', None), 
+        creds.get('imap_server', None)
+    )
 
 if __name__=='__main__':
     creds = {
-        'username': IMAP_USERNAME,
-        'password': IMAP_PASSWORD,
-        'imap_server': IMAP_SERVER
+        'username': MAIL_USERNAME,
+        'password': MAIL_PASSWORD,
+        'server': MAIL_SERVER,
+        'port': MAIL_PORT
     }
 
     handler, connector = setup(creds)
