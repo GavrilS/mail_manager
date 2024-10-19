@@ -40,7 +40,7 @@ class PopConnector:
 
     @property
     def port(self):
-        return self.port
+        return self._port
     
     @port.setter
     def port(self, port):
@@ -66,7 +66,7 @@ class PopConnector:
             message_count = available_messages
             print(f"There are only {available_messages} in the mailbox - showing all of them!")
         
-        for i in range(available_messages):
+        for i in range(message_count):
             for msg in self.mailbox.retr(i+1)[1]:
                 print(msg)
                 print('='*100)

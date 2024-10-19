@@ -5,8 +5,8 @@ from mail_box_handlers.imap_handler import ImapHandler
 
 MAIL_USERNAME = os.getenv('MAIL_USER', None)
 MAIL_PASSWORD = os.getenv('MAIL_PASS', None)
-MAIL_SERVER = os.getenv('IMAP_SERVER', None)
-MAIL_PORT = os.getenv('POP_PORT', None)
+MAIL_SERVER = os.getenv('MAIL_SERVER', None)
+MAIL_PORT = os.getenv('MAIL_PORT', None)
 CONNECTOR = os.getenv('CONNECTOR', 'imap')
 
 DEFAULT_MAIL_FOLDER = ''
@@ -32,8 +32,13 @@ def pop_setup(creds):
     connector = PopConnector(
         creds.get('username', None), 
         creds.get('password', None), 
-        creds.get('imap_server', None)
+        creds.get('server', None),
+        creds.get('port', None)
     )
+
+    connector.connect()
+    connector.get_messages(10)
+    connector.quit()
 
 if __name__=='__main__':
     creds = {
@@ -43,5 +48,6 @@ if __name__=='__main__':
         'port': MAIL_PORT
     }
 
-    handler, connector = setup(creds)
-    main(handler, connector)
+    # handler, connector = setup(creds)
+    # main(handler, connector)
+    pop_setup(creds)
