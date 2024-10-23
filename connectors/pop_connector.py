@@ -60,15 +60,22 @@ class PopConnector:
     def get_num_available_messages(self):
         return len(self.mailbox.list()[1]) # TODO Add error handling
     
-    def get_messages(self, message_count=10):
+    def _verify_num_available_messages(self, message_count):
         available_messages = self.get_num_available_messages()
         if available_messages < message_count:
             message_count = available_messages
             print(f"There are only {available_messages} in the mailbox - showing all of them!")
         
+        return message_count
+    
+    def get_messages(self, message_count=10):
+        message_count = self._verify_num_available_messages(message_count)
+        
         for i in range(message_count):
+            print("Message number", i+1)
             for msg in self.mailbox.retr(i+1)[1]:
                 print(msg)
                 print('='*100)
+            print('End of message!\n', '*'*100)
         
 
