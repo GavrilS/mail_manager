@@ -162,4 +162,4 @@ cython_debug/
 #.idea/
 creds_file.md
 *output.txt
-environment*
+*.env*
