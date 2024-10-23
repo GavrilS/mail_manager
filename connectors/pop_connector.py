@@ -68,7 +68,7 @@ class PopConnector:
         
         return message_count
     
-    def get_messages(self, message_count=10):
+    def get_messages(self, message_count=1):
         message_count = self._verify_num_available_messages(message_count)
         
         for i in range(message_count):
@@ -77,5 +77,8 @@ class PopConnector:
                 print(msg)
                 print('='*100)
             print('End of message!\n', '*'*100)
-        
 
+        return None
+    
+    def delete_messages(self, message_count=1):
+        self.mailbox.dele(message_count)
