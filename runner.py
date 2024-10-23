@@ -37,7 +37,7 @@ def pop_setup(creds):
     )
 
     connector.connect()
-    connector.get_messages(10)
+    connector.get_messages(1)
     connector.quit()
 
 if __name__=='__main__':
