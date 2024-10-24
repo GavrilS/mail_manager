@@ -1,8 +1,8 @@
-class CleanUp:
+class MailCleaner:
 
-    def __init__(self, connector=None, db=None, **kwargs):
-        self.set_connector(connector)
-        self.set_db(db)
+    def __init__(self, *args, **kwargs):
+        self.set_connector(kwargs.get('connector', None))
+        self.set_db(kwargs.get('db', None))
         self.set_flags(
             to_clean=kwargs.get('to_clean', False),
             read_only=kwargs.get('read_only', False),
