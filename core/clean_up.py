@@ -1,7 +1,13 @@
 class CleanUp:
 
-    def __init__(self, to_clean=False, read_only=False, to_save=False, connector=None):
-        self.set_flags(to_clean, read_only, to_save, connector)
+    def __init__(self, connector=None, db=None, **kwargs):
+        self.set_connector(connector)
+        self.set_db(db)
+        self.set_flags(
+            to_clean=kwargs.get('to_clean', False),
+            read_only=kwargs.get('read_only', False),
+            to_save=kwargs.get('to_save', False)
+        )
 
     def run(self):
         if self.to_clean:
@@ -16,11 +22,20 @@ class CleanUp:
 
     __call__ = run
 
-    def set_flags(self, to_clean=False, read_only=False, to_save=False, connector=None):
+    def set_connector(self, connector):
+        if not connector:
+            raise Exception('Connector instance is missing!')
+        self.connector = connector
+
+    def set_db(self, db):
+        if not db:
+            raise Exception('DB instance is missing!')
+        self.db = db
+
+    def set_flags(self, to_clean=False, read_only=False, to_save=False):
         self.to_clean = to_clean
         self.read_only = read_only
         self.to_save = to_save
-        self.connector = connector
 
     def clean_mails(self, message_count):
         self.connector.delete_messages(message_count)
@@ -28,6 +43,7 @@ class CleanUp:
     def clean_and_save_mails(self, message_count):
         messages = self.connector.get_messages(message_count)
         # TODO add messages to DB
+        # self.clean_mails(message_count)
     
     def read_mails(self, message_count):
         messages = self.connector.get_messages(message_count)
