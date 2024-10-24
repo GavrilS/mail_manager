@@ -1,5 +1,5 @@
 import os
-from connectors.imap_connector import ImapConnector
+from connectors.imap.imap_connector import ImapConnector
 from connectors.pop_connector import PopConnector
 from mail_box_handlers.imap_handler import ImapHandler
 
